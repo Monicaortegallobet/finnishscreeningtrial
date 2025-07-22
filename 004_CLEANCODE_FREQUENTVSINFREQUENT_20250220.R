@@ -1,5 +1,5 @@
 #HPV004 FREQUENT VS. INFREQUENT SCREENING STUDY 
-##(2025-02-20 Clean Code)
+
 
 #INDEX
 ## 0 Packages and functions
@@ -32,9 +32,7 @@ library(lubridate)
 library(survival)
 library(survminer)
 library(ggpubr)
-
-packINFO <- as.data.frame(installed.packages())[,c("Package", "Version")]
-rownames(packINFO) <- NULL
+require(renv)
 
 ##FUNCTION CIdel: Calculates the Confidence interval (Upper and lower bounds) using Wald formula
 CIdel <- function(level, n, preval, dec.digits = 5){    
@@ -55,7 +53,7 @@ CIdel <- function(level, n, preval, dec.digits = 5){
   lower <- as.character(round(lower, digits = dec.digits))
   paste(lower, "-", upper)
 }
-# Function to find min value with NA check
+#FUNCTION safe_min: to find min value checking NA
 safe_min <- function(x) {
   if (all(is.na(x))) {
     return(NA)
@@ -63,7 +61,7 @@ safe_min <- function(x) {
     return(min(x, na.rm = TRUE))
   }
 }
-# Function to find max value with NA check
+#FUNCTION safe_max to find max value checking NA
 safe_max <- function(x) {
   if (all(is.na(x))) {
     return(NA)
@@ -74,7 +72,7 @@ safe_max <- function(x) {
 
 #1 DATA LOADING AND MERGING ----
 
-#22YO
+#22 Years Old
 HPV_cohortdata_22yo_20240131 <- readxl::read_excel("HPV004-Effectiveness of Cervical Screening in HPV vaccinated women/data/HPV_cohort_data_Monica_9.1.2024_acctualized_20240816.xlsx", 
                                                    col_types = c("text", "text", "numeric", 
                                                                  "numeric", "date", "numeric", "date", 
@@ -112,7 +110,7 @@ cytology.22yo.update <- readxl::read_excel("HPV004-Effectiveness of Cervical Scr
                                                                          "text", "text", "text", "text", "text", 
                                                                          "text", "text", "text"))
 
-#25YO 
+#25 Years Old
 HPV_cohortdata_25yo_20240123 <- readxl::read_excel("HPV004-Effectiveness of Cervical Screening in HPV vaccinated women/data/HPV_cohort_data_Monica_9.1.2024_acctualized_20240816.xlsx", 
                                                    sheet = "25y", col_types = c("text", 
                                                                                 "text", "numeric", "numeric", "numeric", 
@@ -148,7 +146,7 @@ HPVDNA.25yo.update <- readxl::read_excel("HPV004-Effectiveness of Cervical Scree
                                                                               "text", "text", "text", "text", "text", 
                                                                               "numeric", "numeric", "numeric"))
 
-#28YO 
+#28 Years Old
 HPV_cohortdata_28yo_20240123 <- readxl::read_excel("HPV004-Effectiveness of Cervical Screening in HPV vaccinated women/data/HPV_cohort_data_Monica_9.1.2024_acctualized_20240816.xlsx", 
                                                    sheet = "28y2.0", col_types = c("text","text", "numeric", "numeric", "numeric", 
                                                                                    "date", "date", "date", "text", "text", 
@@ -837,25 +835,6 @@ survtable_obj5 <- survtable_obj5 + scale_y_discrete(name="Arm", labels = c("A3",
 gridExtra::grid.arrange(survplot_color5, survtable_obj5)
 
 
-##Hazard Ratios: Non-proportional hazards ----
-
-##Check:Can we do a cox model (person time based)? which we don't think we can do because:the two arms cross each other mainly / all the other plots look fine according to penny
-HPV_A1A2A3_forHazards$arm<-Relevel.factor(HPV_A1A2A3_forHazards$ARM_HPV004.x,ref="A1")
-HPV_A1A2A3_forHazards$outcome<-if_else(HPV_A1A2A3_forHazards$CIN2.3=="YES",1,
-                                       if_else(HPV_A1A2A3_forHazards$CIN2.3=="NO",0,NA))
-prophazfit <- coxph(Surv(Persontime,outcome)~arm,data=HPV_A1A2A3_forHazards[-which(is.na(HPV_A1A2A3_forHazards$Persontime)),])
-
-residm<-resid(prophazfit,type="martingale")
-plot(residm)
-plot(residm~HPV_A1A2A3_forHazards[-which(is.na(HPV_A1A2A3_forHazards$Persontime)),]$Persontime)
-boxplot(residm~HPV_A1A2A3_forHazards[-which(is.na(HPV_A1A2A3_forHazards$Persontime)),]$CIN2.3)
-boxplot(residm~HPV_A1A2A3_forHazards[-which(is.na(HPV_A1A2A3_forHazards$Persontime)),]$arm)
-
-#log rank test (more interesting to compare A1 A2 and A1 A3)
-ranktestsurv <- survdiff(formula = Surv(Persontime, outcome) ~ arm, data = HPV_A1A2A3_forHazards[-which(is.na(HPV_A1A2A3_forHazards$Persontime)),])
-
-
-
 ##Hazard ratios: Complementary log log binomial regression link function (all at start) ----
 
 ##change the Hist_time for the 1 out of study 
@@ -988,14 +967,12 @@ modelA1A3_25
 ci.exp(modelA1A3_25)
 
 
-
-
 # 5 QUESTIONAIRE DATA: Baseline characteristics ----
 #Load questionnaire data (age of 22)
 Questionnairedata22_16022024 <- readxl::read_excel("HPV004-Effectiveness of Cervical Screening in HPV vaccinated women/data/BQ to Monica and Penny 16.2.2024 - kopia.xlsx")
 Questionnairedata22_16022024 <- Questionnairedata22_16022024[-1,] #eliminate first row with names
 
-#Age of sexual debut                                ##OBS: There's many non numerical answers, make a new variable for adjusting, same with smoking and alcohol intoxications
+#Age of sexual debut                                ##OBS: There's many non-numerical answers, make a new variable for adjusting, same with smoking and alcohol intoxications
 Questionnairedata22_16022024.x <- Questionnairedata22_16022024 %>% mutate(sexual.debut = case_when(`kys23#` == "13-14" ~ "13.5", `kys23#` == "13714"~ "13.5",
                                                                                                    `kys23#` == "14?"~ "14",
                                                                                                    `kys23#` == "14-15"~ "14.5",
@@ -1026,7 +1003,7 @@ sum(sumdata$Freq)
 as.data.frame(table(Questionnairedata22_16022024$`kys22#`))
 
 #smoking
-as.data.frame(table(Questionnairedata22_16022024$`kys13#`)) #0 is missing?
+as.data.frame(table(Questionnairedata22_16022024$`kys13#`)) 
 #alcohol use
 as.data.frame(table(Questionnairedata22_16022024$`kys17#`))
 #condom use
@@ -1062,7 +1039,7 @@ misA1/2255
 misA2/2372
 misA3/1047
 
-ddply(Questionnairedata22_16022024.x, .(ARM_HPV004), summarise, #for smoking habits 
+ddply(Questionnairedata22_16022024.x, .(ARM_HPV004), summarise, #smoking habits 
       n = length(ARM_HPV004),
       Smoking.never = sum(smoke.habit == "Never"),
       Smoking.Quiter = sum(smoke.habit == "Quiter"),
@@ -1080,7 +1057,7 @@ ddply(Questionnairedata22_16022024.x, .(ARM_HPV004), summarise, #For alcohol int
       Intox.missing = sum(alcohol.intoxication == "Missing?")) %>% mutate(never.pr = Intox.never/n) %>% mutate(month1.p = Intox.1month/n) %>%
   mutate(month12.pr = Intox.12month/n) %>% mutate(week.pr = Intox.week/n) %>% mutate(miss.pr = Intox.missing/n)
 
-ddply(Questionnairedata22_16022024.x, .(ARM_HPV004), summarise, #for condom use. OBS:: I cant know how many are missing? All that answered 0 to everything could also be an answer
+ddply(Questionnairedata22_16022024.x, .(ARM_HPV004), summarise, 
       n = length(ARM_HPV004),
       C.always = sum(kys59_1 == "1"),
       C.beginningofrel = sum(kys59_2 == "1"),
@@ -1138,4 +1115,13 @@ ddply(CYT22to25to28, .(ARM_HPV004.x), summarize,
       Miss28 =  sum(Losttofollowup_CYT=="Miss28"),   
       No25No28=sum(Losttofollowup_CYT=="No25No28"))
 
-#-----
+                                 
+#DEPENDENCIES, PACKAGES AND VERSIONS-----
+packINFO <- as.data.frame(installed.packages())[,c("Package", "Version")]
+rownames(packINFO) <- NULL
+dependencies.pkg <- dependencies("C:/Users/monort/OneDrive - Karolinska Institutet/Dokument/HPV004-Effectiveness of Cervical Screening in HPV vaccinated women/RCodes_004/004_CLEANCODE_FREQUENTVSINFREQUENT_20250220.R")
+dependencies.pkg <- as.data.frame(dependencies.pkg$Package)
+colnames(dependencies.pkg) <- c("Package")
+depencencies.versions <- merge(dependencies.pkg,packINFO, by="Package", all.x = TRUE )
+
+#----
