@@ -611,15 +611,15 @@ HPV_cohortdata_cytfindings_bin22 <- HPV_cohortdata_cytfindings_bin22 %>% dplyr::
   dplyr::mutate(LSIL22 = if_else(grepl("LSIL", Cytology1.x)==TRUE, 1, 0)) %>%
   dplyr::mutate(HSIL22 = if_else(grepl("HSIL", Cytology1.x)==TRUE, 1, 0))
 #ASCUS 22
-ASCUSmodel_22 <- glm(HPV_cohortdata_cytfindings_bin22$ASCUS22 ~ HPV_cohortdata_cytfindings_bin22$binomial_ARM, family=binomial(link="log")) #log gives prevalence ratio if i used logit it would give me odds ratio
+ASCUSmodel_22 <- glm(HPV_cohortdata_cytfindings_bin22$ASCUS22 ~ HPV_cohortdata_cytfindings_bin22$binomial_ARM, family=binomial(link="log")) 
 summary(ASCUSmodel_22)
 ci.exp(ASCUSmodel_22, alpha = 0.05)
 #LSIL 22
-LSILmodel_22 <- glm(HPV_cohortdata_cytfindings_bin22$LSIL22 ~ HPV_cohortdata_cytfindings_bin22$binomial_ARM, family=binomial(link="log")) #log gives prevalence ratio if i used logit it would give me odds ratio
+LSILmodel_22 <- glm(HPV_cohortdata_cytfindings_bin22$LSIL22 ~ HPV_cohortdata_cytfindings_bin22$binomial_ARM, family=binomial(link="log")) 
 summary(LSILmodel_22)
 ci.exp(LSILmodel_22, alpha = 0.05)
 #HSIL 22
-HSILmodel_22 <- glm(HPV_cohortdata_cytfindings_bin22$HSIL22 ~ HPV_cohortdata_cytfindings_bin22$binomial_ARM, family=binomial(link="log")) #log gives prevalence ratio if i used logit it would give me odds ratio
+HSILmodel_22 <- glm(HPV_cohortdata_cytfindings_bin22$HSIL22 ~ HPV_cohortdata_cytfindings_bin22$binomial_ARM, family=binomial(link="log")) 
 summary(HSILmodel_22)
 ci.exp(HSILmodel_22, alpha = 0.05)
 
@@ -628,15 +628,15 @@ HPV_cohortdata_cytfindings_bin25 <- HPV_cohortdata_cytfindings_bin25 %>% dplyr::
   dplyr::mutate(LSIL25 = if_else(grepl("LSIL", Cytology1.y)==TRUE, 1, 0)) %>%
   dplyr::mutate(HSIL25 = if_else(grepl("HSIL", Cytology1.y)==TRUE, 1, 0))
 #ASCUS 25
-ASCUSmodel_25 <- glm(HPV_cohortdata_cytfindings_bin25$ASCUS25 ~ HPV_cohortdata_cytfindings_bin25$binomial_ARM, family=binomial(link="log")) #log gives prevalence ratio if i used logit it would give me odds ratio
+ASCUSmodel_25 <- glm(HPV_cohortdata_cytfindings_bin25$ASCUS25 ~ HPV_cohortdata_cytfindings_bin25$binomial_ARM, family=binomial(link="log")) 
 summary(ASCUSmodel_25)
 ci.exp(ASCUSmodel_25, alpha = 0.05)
 #LSIL 25
-LSILmodel_25 <- glm(HPV_cohortdata_cytfindings_bin25$LSIL25 ~ HPV_cohortdata_cytfindings_bin25$binomial_ARM, family=binomial(link="log")) #log gives prevalence ratio if i used logit it would give me odds ratio
+LSILmodel_25 <- glm(HPV_cohortdata_cytfindings_bin25$LSIL25 ~ HPV_cohortdata_cytfindings_bin25$binomial_ARM, family=binomial(link="log")) 
 summary(LSILmodel_25)
 ci.exp(LSILmodel_25, alpha = 0.05)
 #HSIL 25
-HSILmodel_25 <- glm(HPV_cohortdata_cytfindings_bin25$HSIL25 ~ HPV_cohortdata_cytfindings_bin25$binomial_ARM, family=binomial(link="log")) #log gives prevalence ratio if i used logit it would give me odds ratio
+HSILmodel_25 <- glm(HPV_cohortdata_cytfindings_bin25$HSIL25 ~ HPV_cohortdata_cytfindings_bin25$binomial_ARM, family=binomial(link="log")) 
 summary(HSILmodel_25)
 ci.exp(HSILmodel_25, alpha = 0.05)
 
@@ -645,15 +645,15 @@ HPV_cohortdata_cytfindings_bin28 <- HPV_cohortdata_cytfindings_bin28 %>% dplyr::
   dplyr::mutate(LSIL28 = if_else(grepl("LSIL", Cytology1)==TRUE, 1, 0)) %>%
   dplyr::mutate(HSIL28 = if_else(grepl("HSIL", Cytology1)==TRUE, 1, 0))
 #ASCUS 28
-ASCUSmodel_28 <- glm(HPV_cohortdata_cytfindings_bin28$ASCUS28 ~ HPV_cohortdata_cytfindings_bin28$binomial_ARM, family=binomial(link="log")) #log gives prevalence ratio if i used logit it would give me odds ratio
+ASCUSmodel_28 <- glm(HPV_cohortdata_cytfindings_bin28$ASCUS28 ~ HPV_cohortdata_cytfindings_bin28$binomial_ARM, family=binomial(link="log")) 
 summary(ASCUSmodel_28)
 ci.exp(ASCUSmodel_28, alpha = 0.05)
 #LSIL 28
-LSILmodel_28 <- glm(HPV_cohortdata_cytfindings_bin28$LSIL28 ~ HPV_cohortdata_cytfindings_bin28$binomial_ARM, family=binomial(link="log")) #log gives prevalence ratio if i used logit it would give me odds ratio
+LSILmodel_28 <- glm(HPV_cohortdata_cytfindings_bin28$LSIL28 ~ HPV_cohortdata_cytfindings_bin28$binomial_ARM, family=binomial(link="log")) 
 summary(LSILmodel_28)
 ci.exp(LSILmodel_28, alpha = 0.05)
 #HSIL 28
-HSILmodel_28 <- glm(HPV_cohortdata_cytfindings_bin28$HSIL28 ~ HPV_cohortdata_cytfindings_bin28$binomial_ARM, family=binomial(link="log")) #log gives prevalence ratio if i used logit it would give me odds ratio
+HSILmodel_28 <- glm(HPV_cohortdata_cytfindings_bin28$HSIL28 ~ HPV_cohortdata_cytfindings_bin28$binomial_ARM, family=binomial(link="log")) 
 summary(HSILmodel_28)
 ci.exp(HSILmodel_28, alpha = 0.05)
 
