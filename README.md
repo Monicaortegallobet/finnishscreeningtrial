@@ -1,13 +1,15 @@
-# finnishscreeningtrial
+# Finnish screening trial
 
 This repository compiles the R code used to analyze the data from the Finnish screening trial NCT02149030 aiming to assess the effectiveness of cervical screening frequency among women HPV vaccinated as early adolescents.
 
-The code is divided in different sections: First data loading (participant information, HPV DNA results and Cytology results) and merging; HPV DNA and cytlological findings per screening visit; prevalence of CIN2+ calculations and histology cases; Hazard calculations and finally Analysis of questionnaire-based data (baseline characteristics and risk behaviour in the different study arms). 
+### The code is divided in different sections:
+First data loading (participant information, HPV DNA results and Cytology results) and merging; HPV DNA and cytlological findings per screening visit; prevalence of CIN2+ calculations and histology cases; Hazard calculations and finally Analysis of questionnaire-based data (baseline characteristics and risk behaviour in the different study arms). 
 
 
 For this project RStudio 2024.04.1+748 version was used.
 
-Package dependencies and verison:
+## Package dependencies and verison:
+
 caret	6.0-94
 data.table	1.15.4
 dplyr	1.1.4
